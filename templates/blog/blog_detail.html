@@ -1,0 +1,45 @@
+<!-- templates/post_detail.html -->
+{% extends "main.html" %}
+{% load static %}
+
+{% block title %} Blog Detail | StoryTech{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/blog/blog_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="post-detail">
+
+    <div class="post-header">
+        <div class="post-image-wrapper">
+            {% if post.image %}
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+            {% endif %}
+        </div>
+
+        <div class="post-meta">
+            <h1 class="post-title">{{ post.title }}</h1>
+            <p class="post-author">By {{ post.author }}</p>
+        </div>
+    </div>
+
+    <div class="post-content">
+        {% for block in post.blocks.all %}
+          {% if block.type == "text" %}
+             <p>{{ block.value }}</p>
+          {% elif block.type == "code" %}
+             <div class="code-wrapper">
+                 <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                 <pre><code>{{ block.value|escape }}</code></pre>
+             </div>
+          {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+{% block extra_js %}
+  <script src="{% static 'js/blog/blog_detail.js' %}"></script>
+{% endblock %}
+
+{% endblock content %}

@@ -1,0 +1,41 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block title %} Search Chat | StoryTech {% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/chat/name.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="intro-section">
+    <h2 class="intro-title">Why We Ask for Your Name</h2>
+    <p class="intro-text">
+        Your name helps us personalize your experience and ensure that your conversations 
+        and saved stories are connected to the correct user. This allows for a smoother 
+        and more consistent interaction across sessions.
+    </p>
+</div>
+
+<div class="alert-box">
+    <p class="alert-message">
+        Important: Do not share your username with anyone.
+    </p>
+</div>
+
+<div class="form-container">
+    <h3 class="form-title">Enter Your Name</h3>
+
+    {% if error %}
+        <p class="error-text">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST" class="name-form">
+        {% csrf_token %}
+        <input type="text" name="name" class="name-input" placeholder="Your Name" required>
+        <button type="submit" class="submit-btn">Continue</button>
+    </form>
+</div>
+
+{% endblock %}

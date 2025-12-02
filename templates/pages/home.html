@@ -1,0 +1,88 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}Home | StoryTech{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages/home.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section id="hero" class="hero-section">
+  <div class="container hero-container">
+    <h1 class="hero-heading">Welcome to My Portfolio</h1>
+    <p class="hero-subtext">Showcasing courses, project guidance, services, and expertise.</p>
+  </div>
+</section>
+
+<!-- Four-Card Service Section -->
+<section id="services" class="services-section">
+  <div class="container services-container">
+    <h2 class="section-title">What I Offer</h2>
+    <div class="card-grid">
+
+      <!-- Card 1: Course + Blog -->
+      <div id="card-course-blog" class="service-card">
+        <h3 class="card-title">Courses & Blogs</h3>
+        <p class="card-text">Learn concepts through structured courses and technical blogs with anology.</p>
+        <a href="#" class="card-link">Explore</a>
+      </div>
+
+      <!-- Card 2: Project Guidance -->
+      <div id="card-project-guidance" class="service-card">
+        <h3 class="card-title">Project Guidance</h3>
+        <p class="card-text">Get end-to-end personal, and industry projects.</p>
+        <a href="#" class="card-link">Get Guidance</a>
+      </div>
+
+      <!-- Card 3: Direct Services / Freelancing -->
+      <div id="card-service" class="service-card">
+        <h3 class="card-title">Service (Freelancing)</h3>
+        <p class="card-text">Hire me for development, consulting, and technical problem-solving.</p>
+        <a href="#" class="card-link">Hire Me</a>
+      </div>
+
+      <!-- Card 4: Direct Contact Form -->
+      <div id="card-contact" class="service-card">
+        <h3 class="card-title">Contact Me</h3>
+        <p class="card-text">Get in touch directly using the contact form.</p>
+        <a href="{% url 'contact' %}" class="card-link">Contact</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Top Skills Section -->
+<section id="skills" class="skills-section">
+  <div class="container skills-container">
+    <h2 class="section-title">Top Skills</h2>
+    <div class="card-grid">
+
+      <div id="skill-card-1" class="skill-card">
+        <h3 class="skill-title">Python Development</h3>
+        <p class="skill-text">Building scalable backend applications</p>
+      </div>
+
+      <div id="skill-card-2" class="skill-card">
+        <h3 class="skill-title">Django & API Design</h3>
+        <p class="skill-text">Developing web application.</p>
+      </div>
+
+      <div id="skill-card-3" class="skill-card">
+        <h3 class="skill-title">Frontend Engineering</h3>
+        <p class="skill-text">Crafting clean UI/UX</p>
+      </div>
+
+      <div id="skill-card-4" class="skill-card">
+        <h3 class="skill-title">Database Systems</h3>
+        <p class="skill-text">Efficient data modelling</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

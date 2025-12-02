@@ -1,0 +1,60 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block title %} Search Chat | StoryTech {% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/chat/home.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="support-chat-container">
+
+    <div class="top-bar">
+        <form method="POST" action="{% url 'search_chat' %}" class="search-form">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="Enter your name to find chat" class="search-input">
+            <button type="submit" class="search-btn">Search Chat</button>
+        </form>
+
+        <a href="{% url 'start_chat' %}" class="start-chat-link">
+            <button class="start-chat-btn">Start New Chat</button>
+        </a>
+    </div>
+
+    {% if error %}
+        <p class="error-text">{{ error }}</p>
+    {% endif %}
+
+    <hr>
+
+    <div class="info-cards">
+        <div class="card">
+            <h3>When to Use Search Bar</h3>
+            <p>Use the search bar when you want to retrieve an existing chat using a name.</p>
+        </div>
+
+        <div class="card">
+            <h3>When to Use Start Chat</h3>
+            <p>Use the Start Chat option when you need to begin a new support conversation.</p>
+        </div>
+
+        <div class="card">
+            <h3>How to Use Search Bar</h3>
+            <p>Enter your name and press Search to fetch your previous support messages.</p>
+        </div>
+
+        <div class="card">
+            <h3>How to Start Chat</h3>
+            <p>Click the Start Chat button to initiate a new support session.</p>
+        </div>
+    </div>
+
+</div>
+
+{% block extra_js %}
+<script src="{% static 'js/chat/home.js' %}"></script>
+{% endblock %}
+
+{% endblock %}

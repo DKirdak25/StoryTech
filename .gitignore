@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+
+# Django
+*.log
+staticfiles/
+media/
+db.sqlite3
+
+# Environments
+.env
+venv/
+.env.*
+
+# OS / Editors
+.DS_Store
+*.swp
+
+# Render build cache
+render-build/

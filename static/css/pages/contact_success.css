@@ -1,0 +1,173 @@
+.contact-confirmation-wrapper {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.contact-confirmation-container {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  padding: 3rem 2rem;
+  max-width: 600px;
+  width: 100%;
+  animation: cardEntrance 0.6s ease-out;
+}
+
+.confirmation-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e293b;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  animation: titleFade 0.8s ease-out 0.2s both;
+}
+
+.confirmation-message {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #64748b;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  animation: messageFade 0.8s ease-out 0.4s both;
+}
+
+.next-steps {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 2rem;
+}
+
+.next-steps p {
+  color: #475569;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.helpful-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.helpful-links li {
+  margin-bottom: 1rem;
+}
+
+.helpful-links li:last-child {
+  margin-bottom: 0;
+}
+
+.helpful-links a.link-primary {
+  display: inline-flex;
+  align-items: center;
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.1rem;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.helpful-links a.link-primary::before {
+  content: "→";
+  margin-right: 0.75rem;
+  transition: transform 0.3s ease;
+}
+
+.helpful-links a.link-primary::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  transition: width 0.3s ease;
+}
+
+.helpful-links a.link-primary:hover {
+  color: #2563eb;
+  transform: translateX(4px);
+}
+
+.helpful-links a.link-primary:hover::before {
+  transform: translateX(2px);
+}
+
+.helpful-links a.link-primary:hover::after {
+  width: 100%;
+}
+
+.helpful-links a.link-primary:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes titleFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes messageFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-confirmation-container,
+  .confirmation-title,
+  .confirmation-message,
+  .helpful-links a.link-primary {
+    animation: none;
+    transition: none;
+  }
+  
+  .helpful-links a.link-primary:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-confirmation-wrapper {
+    padding: 1rem 0.5rem;
+  }
+  
+  .contact-confirmation-container {
+    padding: 2rem 1.5rem;
+  }
+  
+  .confirmation-title {
+    font-size: 1.75rem;
+  }
+  
+  .confirmation-message {
+    font-size: 1rem;
+  }
+}

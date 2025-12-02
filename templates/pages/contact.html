@@ -1,0 +1,22 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %} Contact | StoryTech{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages/contact.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="page-title">Contact Us</h2>
+    
+    <form class="contact-form" method="post">
+        {% csrf_token %}
+        <div class="form-fields">
+            {{ form.as_p }}
+        </div>
+        <button id="contact-submit" type="submit">Send</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}Success | StoryTech{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages/contact_success.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="contact-confirmation-wrapper">
+    <div class="contact-confirmation-container">
+        <h2 class="confirmation-title">Thank You for Reaching Out</h2>
+        <p class="confirmation-message">
+            We appreciate your interest and value the time you took to contact us.
+            Your message has been successfully submitted, and our team will review it shortly.
+        </p>
+
+        <div class="next-steps">
+            <p>If you require immediate assistance, please feel free to explore the resources below:</p>
+            <ul class="helpful-links">
+                <li><a href="/services/" class="link-primary">View Our Services</a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

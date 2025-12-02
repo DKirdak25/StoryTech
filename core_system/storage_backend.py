@@ -1,38 +1,36 @@
 import os
 from django.core.files.storage import Storage
-from django.core.files.base import ContentFile
-from supabase import create_client, Client
+from supabase import create_client
 
-SUPABASE_URL = os.environ.get("SUPABASE_URL")
-SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
+
+SUPABASE_URL = os.environ["SUPABASE_URL"]
+SUPABASE_KEY = os.environ["SUPABASE_KEY"]
 SUPABASE_BUCKET = os.environ.get("SUPABASE_BUCKET", "media")
 
-client: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 
 class SupabaseStorage(Storage):
     def _save(self, name, content):
-        # Read bytes
+        # Normalize name for Supabase
+        name = name.replace("\\", "/")
         file_bytes = content.read()
 
-        # Correct Supabase upload call (v2)
-        response = client.storage \
-            .from_(SUPABASE_BUCKET) \
-            .upload(
-                path=name,
-                file=file_bytes,
-                file_options={"content-type": content.content_type}
-            )
+        response = client.storage.from_(SUPABASE_BUCKET).upload(
+            file=name,
+            file=file_bytes,
+            file_options={"content-type": content.content_type},
+        )
 
-        # Check for errors
-        if "error" in response and response["error"]:
-            raise Exception(f"Supabase Upload Failed: {response['error']['message']}")
+        if response is None or getattr(response, "error", None):
+            raise Exception(f"Supabase upload failed: {response.error}")
 
         return name
 
     def url(self, name):
+        name = name.replace("\\", "/")
         return f"{SUPABASE_URL}/storage/v1/object/public/{SUPABASE_BUCKET}/{name}"
 
     def exists(self, name):
-        # Always overwrite
+        # Django checks this before saving. Always return False.
         return False

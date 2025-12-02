@@ -4,12 +4,25 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# -------------------------------------------------------------------
 # Security
-SECRET_KEY = os.environ.get("SECRET_KEY")
+# -------------------------------------------------------------------
+SECRET_KEY = os.environ.get("SECRET_KEY", "unsafe-secret-key")
 DEBUG = os.environ.get("DEBUG", "False") == "True"
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(",")
 
+# Recommended security flags in production
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+
+# -------------------------------------------------------------------
 # Apps
+# -------------------------------------------------------------------
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -25,7 +38,9 @@ INSTALLED_APPS = [
     "chat",
 ]
 
+# -------------------------------------------------------------------
 # Middleware
+# -------------------------------------------------------------------
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
@@ -39,6 +54,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "core_system.urls"
 
+# -------------------------------------------------------------------
+# Templates
+# -------------------------------------------------------------------
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -57,17 +75,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core_system.wsgi.application"
 
-# DATABASE — defaults to Supabase Postgres if DATABASE_URL is set
+# -------------------------------------------------------------------
+# Database (Supabase Postgres if DATABASE_URL is provided)
+# -------------------------------------------------------------------
 DATABASES = {
     "default": dj_database_url.config(
         env="DATABASE_URL",
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=0,           # Required for Supabase (no persistent connections)
-        ssl_require=True
+        conn_max_age=0,
+        ssl_require=True,
     )
 }
 
+# -------------------------------------------------------------------
 # Password validation
+# -------------------------------------------------------------------
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
@@ -75,41 +97,49 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
+# -------------------------------------------------------------------
 # Internationalization
+# -------------------------------------------------------------------
 LANGUAGE_CODE = "en-us"
-TIME_ZONE = "UTC"
+TIME_ZONE = os.environ.get("TIME_ZONE", "UTC")
 USE_I18N = True
 USE_TZ = True
 
-
-# STATIC FILES (WHITENOISE)
+# -------------------------------------------------------------------
+# Static Files (Whitenoise)
+# -------------------------------------------------------------------
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+STATICFILES_STORAGE = (
+    "whitenoise.storage.CompressedManifestStaticFilesStorage"
+)
 
-# SUPABASE STORAGE CONFIGURATION
+# -------------------------------------------------------------------
+# Supabase Storage Integration
+# -------------------------------------------------------------------
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 SUPABASE_BUCKET = os.environ.get("SUPABASE_BUCKET", "media")
 
-# MEDIA URL points to Supabase public bucket
 MEDIA_URL = (
     f"{SUPABASE_URL}/storage/v1/object/public/{SUPABASE_BUCKET}/"
     if SUPABASE_URL
     else "/media/"
 )
 
-# Local fallback (development only)
 MEDIA_ROOT = BASE_DIR / "media"
 
-# Custom storage backend for Supabase
 DEFAULT_FILE_STORAGE = "storage_backends.SupabaseStorage"
 
-
-# Email configuration
-EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend")
+# -------------------------------------------------------------------
+# Email
+# -------------------------------------------------------------------
+EMAIL_BACKEND = os.environ.get(
+    "EMAIL_BACKEND",
+    "django.core.mail.backends.smtp.EmailBackend"
+)
 EMAIL_HOST = os.environ.get("EMAIL_HOST", "smtp.gmail.com")
 EMAIL_PORT = int(os.environ.get("EMAIL_PORT", 587))
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
@@ -117,5 +147,7 @@ EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "True") == "True"
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-# Default primary key
+# -------------------------------------------------------------------
+# Primary key field
+# -------------------------------------------------------------------
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

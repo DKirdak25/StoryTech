@@ -60,9 +60,10 @@ WSGI_APPLICATION = "core_system.wsgi.application"
 # DATABASE — defaults to Supabase Postgres if DATABASE_URL is set
 DATABASES = {
     "default": dj_database_url.config(
+        env="DATABASE_URL",
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600,
-        ssl_require=True,
+        conn_max_age=0,           # Required for Supabase (no persistent connections)
+        ssl_require=True
     )
 }
 

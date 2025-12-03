@@ -10,26 +10,28 @@ SUPABASE_BUCKET = settings.SUPABASE_BUCKET
 
 class SupabaseStorage(Storage):
     def _save(self, name, content):
-        try:
-            name = name.replace("\\", "/")
-            file_bytes = content.read()
-            mime_type = getattr(content, "content_type", "application/octet-stream")
+    try:
+        name = name.replace("\\", "/")
+        file_bytes = content.read()
+        mime_type = getattr(content, "content_type", "application/octet-stream")
 
-            response = client.storage.from_(SUPABASE_BUCKET).upload(
-                file=name,
-                file=file_bytes,
-                file_options={
-                    "content-type": mime_type,
-                    "upsert": False,
-                },
-            )
+        response = client.storage.from_(SUPABASE_BUCKET).upload(
+            name,
+            file_bytes,
+            {
+                "content-type": mime_type,
+                "upsert": False,
+            },
+        )
 
-            if getattr(response, "error", None):
-                logger.error(f"SUPABASE UPLOAD ERROR: {response.error}")
-                raise Exception(f"Supabase upload failed: {response.error}")
+        if getattr(response, "error", None):
+            logger.error(f"SUPABASE UPLOAD ERROR: {response.error}")
+            raise Exception(f"Supabase upload failed: {response.error}")
 
-            return name
+        return name
 
-        except Exception:
-            logger.exception(f"STORAGE ERROR during upload of {name}")
-            raise
+    except Exception:
+        logger.exception(f"STORAGE ERROR during upload of {name}")
+        raise
+
+        

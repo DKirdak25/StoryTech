@@ -42,19 +42,11 @@ class SupabaseStorage(Storage):
         return False
 
     def url(self, name):
-        """
-        Return a public URL for the uploaded file.
-        """
-        try:
-            result = client.storage.from_(SUPABASE_BUCKET).get_public_url(name)
-            return result["publicUrl"]
-        except Exception:
-            logger.exception("Failed generating Supabase public URL for %s", name)
-            return ""
-
-    def open(self, name, mode="rb"):
-        """
-        Not required by Django for uploads, but included for completeness.
-        """
-        response = client.storage.from_(SUPABASE_BUCKET).download(name)
-        return response 
+    # Supabase already gives the full URL string
+    try:
+        bucket = settings.SUPABASE_BUCKET
+        public_url = self.client.storage.from_(bucket).get_public_url(name)
+        return public_url
+    except Exception as e:
+        logger.error(f"Failed generating Supabase public URL for {name}: {e}")
+        return f"{settings.MEDIA_URL}{name}"

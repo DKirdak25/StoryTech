@@ -131,8 +131,11 @@ MEDIA_URL = (
 
 MEDIA_ROOT = BASE_DIR / "media"
 
-DEFAULT_FILE_STORAGE = "core_system.storage_backend.SupabaseStorage"
-
+STORAGES = {
+    "default": {
+        "BACKEND": "core_system.storage_backend.SupabaseStorage",
+    }
+}
 # -------------------------------------------------------------------
 # Email
 # -------------------------------------------------------------------

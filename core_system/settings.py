@@ -78,6 +78,7 @@ WSGI_APPLICATION = "core_system.wsgi.application"
 # -------------------------------------------------------------------
 # Database (Supabase Postgres if DATABASE_URL is provided)
 # -------------------------------------------------------------------
+# settings.py (local development)
 DATABASES = {
     "default": dj_database_url.config(
         env="DATABASE_URL",
@@ -86,7 +87,6 @@ DATABASES = {
         ssl_require=True,
     )
 }
-
 # -------------------------------------------------------------------
 # Password validation
 # -------------------------------------------------------------------
@@ -108,7 +108,7 @@ USE_TZ = True
 # -------------------------------------------------------------------
 # Static Files (Whitenoise)
 # -------------------------------------------------------------------
-STATIC_URL = "/static/"
+STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
@@ -126,7 +126,7 @@ SUPABASE_BUCKET = os.environ.get("SUPABASE_BUCKET", "media")
 MEDIA_URL = (
     f"{SUPABASE_URL}/storage/v1/object/public/{SUPABASE_BUCKET}/"
     if SUPABASE_URL
-    else "/media/"
+    else "media/"
 )
 
 MEDIA_ROOT = BASE_DIR / "media"

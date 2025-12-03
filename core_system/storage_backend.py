@@ -19,7 +19,6 @@ class SupabaseStorage(Storage):
             response = client.storage.from_(SUPABASE_BUCKET).upload(
                 path=name,
                 file=file_bytes,
-                upsert= False,
                 file_options={
                     "content-type": mime_type,
                 },

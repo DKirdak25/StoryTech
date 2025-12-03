@@ -108,7 +108,7 @@ USE_TZ = True
 # -------------------------------------------------------------------
 # Static Files (Whitenoise)
 # -------------------------------------------------------------------
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
@@ -126,7 +126,7 @@ SUPABASE_BUCKET = os.environ.get("SUPABASE_BUCKET", "media")
 MEDIA_URL = (
     f"{SUPABASE_URL}/storage/v1/object/public/{SUPABASE_BUCKET}/"
     if SUPABASE_URL
-    else "media/"
+    else "/media/"
 )
 
 MEDIA_ROOT = BASE_DIR / "media"

@@ -34,3 +34,28 @@ class SupabaseStorage(Storage):
         except Exception:
             logger.exception(f"STORAGE ERROR during upload of %s", name)
             raise
+     
+    def exists(self, name):
+        """
+        Always return False so Django never tries to append unique suffixes.
+        Supabase handles paths without overwriting unless upsert=True.
+        """
+        return False
+
+    def url(self, name):
+        """
+        Return a public URL for the uploaded file.
+        """
+        try:
+            result = client.storage.from_(SUPABASE_BUCKET).get_public_url(name)
+            return result["publicUrl"]
+        except Exception:
+            logger.exception("Failed generating Supabase public URL for %s", name)
+            return ""
+
+    def open(self, name, mode="rb"):
+        """
+        Not required by Django for uploads, but included for completeness.
+        """
+        response = client.storage.from_(SUPABASE_BUCKET).download(name)
+        return response 

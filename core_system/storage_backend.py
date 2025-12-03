@@ -42,11 +42,10 @@ class SupabaseStorage(Storage):
         return False
 
     def url(self, name):
-    # Supabase already gives the full URL string
     try:
-        bucket = settings.SUPABASE_BUCKET
-        public_url = self.client.storage.from_(bucket).get_public_url(name)
+        # Supabase returns a string, not a dict
+        public_url = client.storage.from_(SUPABASE_BUCKET).get_public_url(name)
         return public_url
-    except Exception as e:
-        logger.error(f"Failed generating Supabase public URL for {name}: {e}")
-        return f"{settings.MEDIA_URL}{name}"
+    except Exception:
+        logger.exception("Failed generating Supabase public URL for %s", name)
+        return ""

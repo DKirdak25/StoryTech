@@ -112,10 +112,6 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-STATICFILES_STORAGE = (
-    "whitenoise.storage.CompressedManifestStaticFilesStorage"
-)
-
 # -------------------------------------------------------------------
 # Supabase Storage Integration
 # -------------------------------------------------------------------
@@ -134,8 +130,12 @@ MEDIA_ROOT = BASE_DIR / "media"
 STORAGES = {
     "default": {
         "BACKEND": "core_system.storage_backend.SupabaseStorage",
-    }
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
 }
+
 # -------------------------------------------------------------------
 # Email
 # -------------------------------------------------------------------

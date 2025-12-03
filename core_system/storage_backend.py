@@ -1,8 +1,14 @@
+from django.core.files.storage import Storage
+from django.conf import settings
+from supabase import create_client, Client
 import logging
+
 logger = logging.getLogger(__name__)
 
-class SupabaseStorage(Storage):
+client: Client = create_client(settings.SUPABASE_URL, settings.SUPABASE_KEY)
+SUPABASE_BUCKET = settings.SUPABASE_BUCKET
 
+class SupabaseStorage(Storage):
     def _save(self, name, content):
         try:
             name = name.replace("\\", "/")
@@ -24,6 +30,6 @@ class SupabaseStorage(Storage):
 
             return name
 
-        except Exception as e:
+        except Exception:
             logger.exception(f"STORAGE ERROR during upload of {name}")
             raise
